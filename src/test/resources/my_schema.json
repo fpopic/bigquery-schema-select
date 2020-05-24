@@ -1,0 +1,85 @@
+[
+  {
+    "name": "A",
+    "type": "TIMESTAMP"
+  },
+  {
+    "name": "B",
+    "type": "TIMESTAMP"
+  },
+  {
+    "name": "C",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "D",
+        "type": "RECORD",
+        "fields": [
+          {
+            "name": "E",
+            "type": "TIMESTAMP"
+          },
+          {
+            "name": "F",
+            "type": "RECORD",
+            "mode": "REPEATED",
+            "fields": [
+              {
+                "name": "G",
+                "type": "STRING"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "H",
+        "type": "TIMESTAMP"
+      }
+    ]
+  },
+  {
+    "name": "I",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "J",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "K",
+        "type": "TIMESTAMP"
+      }
+    ]
+  },
+  {
+    "name": "L",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "M",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "N",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "O",
+        "type": "RECORD",
+        "fields": [
+          {
+            "name": "P",
+            "type": "TIMESTAMP"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "R",
+    "type": "TIMESTAMP",
+    "mode": "REPEATED"
+  }
+]
