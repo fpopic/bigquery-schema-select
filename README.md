@@ -1,28 +1,24 @@
 # bigquery-schema-select
 
 ![Scala CI](https://github.com/fpopic/bigquery-schema-select/workflows/Scala%20CI/badge.svg) 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.fpopic/bigquery-schema-select/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.fpopic/bigquery-schema-select)
+[<img src="https://img.shields.io/maven-central/v/com.github.fpopic/bigquery-schema-select_2.13.svg?color=brightgreen&label=maven%20central%202.13"/>](https://search.maven.org/#search%7Cga%7C1%7Cbigquery-schema-select_2.13)
 
 Generates SQL query that selects all fields (recursively for nested fields) from the provided BigQuery schema file.
 
 #### Usage
 
-```shell script
-git clone git@github.com:fpopic/bigquery-schema-select.git
-cd bigquery-schema-select
-sbt assembly
-```
+Download latest version `bigquery-schema-select_2.13-X.Y.jar` from [maven releases](https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/).
 
 Using existing table: 
 
 ```shell script
-bq show --schema --format=prettyjson my_dataset:my_project.my_table | java -jar target/scala-2.13/bigquery-schema-select-assembly-0.1.jar
+bq show --schema --format=prettyjson my_dataset:my_project.my_table | java -jar bigquery-schema-select_2.13-0.1.jar
 ```
 
 Using JSON schema file:
 
 ```shell script
-cat src/test/resources/my_schema.json | java -jar target/scala-2.13/bigquery-schema-select-assembly-0.1.jar
+cat src/test/resources/my_schema.json | java -jar bigquery-schema-select_2.13-0.1.jar
 ```
 
 ```json
