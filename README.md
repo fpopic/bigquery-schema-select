@@ -1,5 +1,7 @@
 # bigquery-schema-select
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.fpopic/bigquery-schema-select/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.github.fpopic/bigquery-schema-select)
+
 Generates SQL query that selects all fields (recursively for nested fields) from the provided BigQuery schema file.
 
 #### Usage
