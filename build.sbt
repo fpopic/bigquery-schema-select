@@ -3,7 +3,7 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 val commonSettings = Seq(
   name := "bigquery-schema-select",
   organization := "com.github.fpopic",
-  version := "0.2-SNAPSHOT",
+  version := "0.2",
   scalaVersion := "2.13.2"
 )
 
