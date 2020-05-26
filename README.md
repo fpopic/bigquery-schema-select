@@ -18,7 +18,7 @@ bq show --schema --format=prettyjson my_dataset:my_project.my_table | java -jar 
 Using JSON schema file:
 
 ```shell script
-cat src/test/resources/my_schema.json | java -jar bigquery-schema-select_2.13-0.1.jar
+cat my_schema.json | java -jar bigquery-schema-select_2.13-0.1.jar
 ```
 
 ```json
