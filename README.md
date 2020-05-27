@@ -5,9 +5,16 @@
 
 Generates SQL query that selects all fields (recursively for nested fields) from the provided BigQuery schema file.
 
-#### Usage
+#### Install
 
-Download latest version `bigquery-schema-select_2.13-X.Y.jar` from [maven releases](https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/).
+Download latest version `bigquery-schema-select_2.13-X.Y.jar` from [maven releases UI] (https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/) or using CLI:
+
+```shell script
+# replace X.Y with the latest version
+wget -O ~/bigquery-schema-select_2.13-X.Y.jar https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/X.Y/bigquery-schema-select_2.13-X.Y.jar
+```
+
+#### Usage
 
 Using existing table: 
 
