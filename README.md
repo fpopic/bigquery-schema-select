@@ -12,13 +12,13 @@ Download latest version `bigquery-schema-select_2.13-X.Y.jar` from [maven releas
 Using existing table: 
 
 ```shell script
-bq show --schema --format=prettyjson my_dataset:my_project.my_table | java -jar bigquery-schema-select_2.13-0.1.jar
+bq show --schema --format=prettyjson my_dataset:my_project.my_table | java -jar bigquery-schema-select_2.13-X.Y.jar
 ```
 
 Using JSON schema file:
 
 ```shell script
-cat my_schema.json | java -jar bigquery-schema-select_2.13-0.1.jar
+cat my_schema.json | java -jar bigquery-schema-select_2.13-X.Y.jar
 ```
 
 ```json
