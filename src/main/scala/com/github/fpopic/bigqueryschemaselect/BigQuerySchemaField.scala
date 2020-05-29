@@ -18,7 +18,8 @@ private[bigqueryschemaselect] final case class BigQuerySchemaField(
   def isPrimitive: Boolean = !isRecord
 }
 
-// TODO figure out how to avoid type error if I put these implicits in companion object (some trick with [.type]
+// TODO figure out how to avoid compiler type error if I put these 
+// implicits in companion object (might be some trick with [BigQuerySchemaField.type])
 private[bigqueryschemaselect] object BigQuerySchemaField2 {
 
   implicit lazy val readsSeqBigQuerySchemaField: Reads[Seq[BigQuerySchemaField]] =
