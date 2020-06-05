@@ -19,7 +19,7 @@ wget -O ~/bigquery-schema-select_2.13-X.Y.jar https://repo1.maven.org/maven2/com
 Using existing table: 
 
 ```shell script
-bq show --schema --format=prettyjson my_dataset:my_project.my_table | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
+bq show --schema --format=prettyjson my_project:my_dataset.my_table | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
 ```
 
 Using JSON schema file:
