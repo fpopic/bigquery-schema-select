@@ -1,41 +1,41 @@
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val commonSettings = Seq(
-  name := "bigquery-schema-select",
-  organization := "com.github.fpopic",
-  version := "0.2",
-  scalaVersion := "2.13.2"
+inThisBuild(
+  Seq(
+    name := "bigquery-schema-select",
+    organization := "com.github.fpopic",
+    version := "0.4",
+    scalaVersion := "2.13.5"
+  )
 )
 
 lazy val root = (project in file("."))
   .enablePlugins(AssemblyPlugin)
   .settings(
-    commonSettings,
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play-json" % "2.8.1",
       "org.scalatest" %% "scalatest" % "3.1.0" % Test
     ),
     // Assembly settings
-    mainClass in assembly := Some("com.github.fpopic.bigqueryschemaselect.Main"),
-    test in assembly := {},
-    assemblyMergeStrategy in assembly := {
+    assembly / mainClass := Some("com.github.fpopic.bigqueryschemaselect.Main"),
+    assembly / test := {},
+    assembly / assemblyMergeStrategy := {
       case PathList("META-INF", _*) => MergeStrategy.discard
       case _                        => MergeStrategy.first
     },
-    assemblyJarName in assembly :=
+    assembly / assemblyJarName :=
       s"${name.value}_${CrossVersion.binaryScalaVersion(scalaVersion.value)}-${version.value}.jar",
     // Publish assembly
     //   https://github.com/sbt/sbt-assembly#publishing-not-recommended
-    skip in publish := true,
-    artifact in (Compile, assembly) := {
-      val art = (artifact in (Compile, assembly)).value
+    publish / skip := true,
+    Compile / assembly / artifact := {
+      val art = (Compile / assembly / artifact).value
       art.withClassifier(Some("assembly"))
     },
-    addArtifact(artifact in (Compile, assembly), assembly)
+    addArtifact(Compile / assembly / artifact, assembly)
   )
 
 lazy val wrapper = project
   .settings(
-    commonSettings,
-    packageBin in Compile := (assembly in (root, Compile)).value
+    Compile / packageBin := (root / Compile / assembly).value
   )
