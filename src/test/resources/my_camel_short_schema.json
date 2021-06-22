@@ -1,0 +1,64 @@
+[
+  {
+    "name": "myPrimitive",
+    "type": "TIMESTAMP"
+  },
+  {
+    "name": "myStruct",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "myA",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "myB",
+        "type": "TIMESTAMP"
+      }
+    ]
+  },
+  {
+    "name": "myStructOfStruct",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "my1",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "my2Struct",
+        "type": "RECORD",
+        "fields": [
+          {
+            "name": "my2",
+            "type": "TIMESTAMP"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "myRepeatedPrimitive",
+    "type": "TIMESTAMP",
+    "mode": "REPEATED"
+  },
+  {
+    "name": "myRepeatedStruct",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "myX",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "myY",
+        "type": "TIMESTAMP"
+      }
+    ]
+  },
+  {
+    "name": "nochange",
+    "type": "TIMESTAMP"
+  }
+]

@@ -1,31 +1,31 @@
 [
   {
-    "name": "A",
+    "name": "AField1",
     "type": "TIMESTAMP"
   },
   {
-    "name": "B",
+    "name": "BField2",
     "type": "TIMESTAMP"
   },
   {
-    "name": "C",
+    "name": "CField3",
     "type": "RECORD",
     "fields": [
       {
-        "name": "D",
+        "name": "DField4",
         "type": "RECORD",
         "fields": [
           {
-            "name": "E",
+            "name": "EField5",
             "type": "TIMESTAMP"
           },
           {
-            "name": "F",
+            "name": "FField6",
             "type": "RECORD",
             "mode": "REPEATED",
             "fields": [
               {
-                "name": "G",
+                "name": "GField7",
                 "type": "STRING"
               }
             ]
@@ -33,44 +33,44 @@
         ]
       },
       {
-        "name": "H",
+        "name": "HField8",
         "type": "TIMESTAMP"
       }
     ]
   },
   {
-    "name": "I",
+    "name": "IField9",
     "type": "RECORD",
     "fields": [
       {
-        "name": "J",
+        "name": "JField10",
         "type": "TIMESTAMP"
       },
       {
-        "name": "K",
+        "name": "KField11",
         "type": "TIMESTAMP"
       }
     ]
   },
   {
-    "name": "L",
+    "name": "LField12",
     "type": "RECORD",
     "mode": "REPEATED",
     "fields": [
       {
-        "name": "M",
+        "name": "MField13",
         "type": "TIMESTAMP"
       },
       {
-        "name": "N",
+        "name": "NField14",
         "type": "TIMESTAMP"
       },
       {
-        "name": "O",
+        "name": "OField15",
         "type": "RECORD",
         "fields": [
           {
-            "name": "P",
+            "name": "PField16",
             "type": "TIMESTAMP"
           }
         ]
@@ -78,7 +78,7 @@
     ]
   },
   {
-    "name": "Q",
+    "name": "QField17",
     "type": "TIMESTAMP",
     "mode": "REPEATED"
   }
