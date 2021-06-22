@@ -1,13 +1,8 @@
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-inThisBuild(
-  Seq(
-    name := "bigquery-schema-select",
-    organization := "com.github.fpopic",
-    version := "0.4",
-    scalaVersion := "2.13.5"
-  )
-)
+ThisBuild / organization := "com.github.fpopic"
+ThisBuild / version := "0.3-SNAPSHOT"
+ThisBuild / scalaVersion := "2.13.5"
 
 lazy val root = (project in file("."))
   .enablePlugins(AssemblyPlugin)
@@ -37,5 +32,6 @@ lazy val root = (project in file("."))
 
 lazy val wrapper = project
   .settings(
+    name := "bigquery-schema-select",
     Compile / packageBin := (root / Compile / assembly).value
   )
