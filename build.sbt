@@ -1,7 +1,7 @@
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / organization := "com.github.fpopic"
-ThisBuild / version := "0.3-SNAPSHOT"
+ThisBuild / version := "0.3"
 ThisBuild / scalaVersion := "2.13.5"
 
 lazy val root = (project in file("."))
