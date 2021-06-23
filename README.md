@@ -109,7 +109,7 @@ cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
     ]
   },
   {
-    "name": "R",
+    "name": "Q",
     "type": "TIMESTAMP",
     "mode": "REPEATED"
   }
@@ -129,9 +129,10 @@ SELECT
           F.G
         FROM
           UNNEST(C.D.F) AS F
-          WITH OFFSET AS offset
+        WITH
+          OFFSET
         ORDER BY
-          offset
+          OFFSET
       ) AS F
     ) AS D,
     C.H
@@ -149,9 +150,15 @@ SELECT
       ) AS O
     FROM
       UNNEST(L) AS L
-      WITH OFFSET AS offset
+    WITH 
+      OFFSET
     ORDER BY
-      offset
+      OFFSET
   ) AS L,
-  R
+  Q
+```
+
+In case you would like to use snake_case for field names use flag `--use_snake_case`:
+```shell script
+cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar --use_snake_case
 ```

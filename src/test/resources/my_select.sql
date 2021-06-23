@@ -9,9 +9,10 @@ SELECT
           F.G
         FROM
           UNNEST(C.D.F) AS F
-          WITH OFFSET AS offset
+        WITH
+          OFFSET
         ORDER BY
-          offset
+          OFFSET
       ) AS F
     ) AS D,
     C.H
@@ -29,8 +30,9 @@ SELECT
       ) AS O
     FROM
       UNNEST(L) AS L
-      WITH OFFSET AS offset
+    WITH
+      OFFSET
     ORDER BY
-      offset
+      OFFSET
   ) AS L,
-  R
+  Q
