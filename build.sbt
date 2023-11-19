@@ -2,13 +2,13 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / organization := "com.github.fpopic"
 ThisBuild / version := "0.4"
-ThisBuild / scalaVersion := "2.13.5"
+ThisBuild / scalaVersion := "2.13.9"
 
 lazy val root = (project in file("."))
   .enablePlugins(AssemblyPlugin)
   .settings(
     libraryDependencies ++= Seq(
-      "com.typesafe.play" %% "play-json" % "2.8.1",
+      "com.typesafe.play" %% "play-json" % "2.10.0",
       "org.scalatest" %% "scalatest" % "3.1.0" % Test
     ),
     // Assembly settings
