@@ -8,7 +8,7 @@ lazy val root = (project in file("."))
   .enablePlugins(AssemblyPlugin)
   .settings(
     libraryDependencies ++= Seq(
-      "com.typesafe.play" %% "play-json" % "2.10.0",
+      "com.typesafe.play" %% "play-json" % "2.10.6",
       "org.scalatest" %% "scalatest" % "3.1.0" % Test
     ),
     // Assembly settings
