@@ -12,12 +12,23 @@ if ! command -v bq >/dev/null 2>&1; then
   echo "Warning: bq (Google Cloud SDK) is not installed. You can still use this tool with JSON files, but you won't be able to fetch schemas directly from BigQuery." >&2
 fi
 
+# Check for help flags
+if [[ "$1" == "--help" || "$1" == "-h" ]]; then
+  echo "Usage: cat schema.json | $0 [--use_snake_case]"
+  echo "Or:    bq show --schema --format=prettyjson project:dataset.table | $0"
+  echo ""
+  echo "Options:"
+  echo "  --use_snake_case    Convert camelCase field names to snake_case aliases"
+  echo "  --help, -h          Show this help message"
+  exit 0
+fi
+
 # Check for input (stdin)
 if [[ -t 0 ]]; then
-  echo "Usage: cat schema.json | $0 [--use_snake_case]" >&2
-  echo "Or: bq show --schema --format=prettyjson project:dataset.table | $0" >&2
+  $0 --help
   exit 1
 fi
+
 
 # Read input once
 INPUT=$(cat)
