@@ -18,4 +18,8 @@ echo "Test 3: my_camel_short_schema.json --use_snake_case"
 ./bin/bigquery-schema-select --use_snake_case < test-resources/my_camel_short_schema.json | diff - test-resources/my_camel_short_select.sql
 echo "Test 3 passed!"
 
+echo "Test 4: my_reserved_schema.json"
+./bin/bigquery-schema-select < test-resources/my_reserved_schema.json | diff - test-resources/my_reserved_select.sql
+echo "Test 4 passed!"
+
 echo "All tests passed!"
