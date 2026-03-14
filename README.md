@@ -1,33 +1,39 @@
 # bigquery-schema-select
 
-![Scala CI](https://github.com/fpopic/bigquery-schema-select/workflows/Scala%20CI/badge.svg) 
-[<img src="https://img.shields.io/maven-central/v/com.github.fpopic/bigquery-schema-select_2.13.svg?color=brightgreen&label=maven%20central%202.13"/>](https://search.maven.org/#search%7Cga%7C1%7Cbigquery-schema-select_2.13)
-
 Generates SQL query that selects all fields (recursively for nested fields) from the provided BigQuery schema file.
 
-### Installation
+### Motivation
 
-Download latest version `bigquery-schema-select_2.13-X.Y.jar` from [maven releases UI](https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/) or using CLI:
+This tool is designed to help automate the creation of **explicit BigQuery views** that act as a strict schema "contract" between different layers of a medallion architecture. Think of these views as the **Public API** for your data: they provide a stable, documented interface that shields downstream consumers from the complexities and changes of the underlying raw data.
 
-```shell script
-# replace X.Y with the latest version
-wget -O ~/bigquery-schema-select_2.13-X.Y.jar https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/X.Y/bigquery-schema-select_2.13-X.Y.jar
-```
+By generating an explicit `SELECT` statement that recursively expands `RECORD` and `REPEATED RECORD` types, it ensures that your views:
+- **Prevent Schema Drift**: New fields added to the underlying source table will not be exposed in the view until you explicitly update the schema and regenerate it (avoiding the pitfalls of `SELECT *`).
+- **Maintain Structure**: Uses `STRUCT(...)` and `ARRAY(SELECT AS STRUCT ...)` to fully specify the output record structure and maintain array order using `WITH OFFSET`.
+- **Enforce Naming Standards**: Optionally aliases camelCase fields to snake_case (using the `--use_snake_case` flag) to maintain a consistent naming convention across your data products.
+- **Automate Redundancy**: Avoids the error-prone and tedious process of manually rewriting complex nested SQL for dozens or hundreds of fields.
+
+### Prerequisites
+
+- `jq` installed on your system.
+- `bash` shell.
 
 ### Usage
 
 Using existing table: 
 
 ```shell script
-bq show --schema --format=prettyjson my_project:my_dataset.my_table | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
+bq show --schema --format=prettyjson my_project:my_dataset.my_table | ./bin/bigquery-schema-select
 ```
 
 Using JSON schema file:
 
 ```shell script
-cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
+cat my_schema.json | ./bin/bigquery-schema-select
 ```
 
+#### Example
+
+Input `my_schema.json`:
 ```json
 [
   {
@@ -116,49 +122,56 @@ cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
 ]
 ```
 
-Would generate:
+Generates:
 ```sql
 SELECT
-  A,
-  B,
+  `A`,
+  `B`,
   STRUCT(
     STRUCT(
-      C.D.E,
+      `C`.`D`.`E`,
       ARRAY(
         SELECT AS STRUCT
-          F.G
+          `F`.`G`
         FROM
-          UNNEST(C.D.F) AS F
+          UNNEST(`C`.`D`.`F`) AS `F`
         WITH
           OFFSET
         ORDER BY
           OFFSET
-      ) AS F
-    ) AS D,
-    C.H
-  ) AS C,
+      ) AS `F`
+    ) AS `D`,
+    `C`.`H`
+  ) AS `C`,
   STRUCT(
-    I.J,
-    I.K
-  ) AS I,
+    `I`.`J`,
+    `I`.`K`
+  ) AS `I`,
   ARRAY(
     SELECT AS STRUCT
-      L.M,
-      L.N,
+      `L`.`M`,
+      `L`.`N`,
       STRUCT(
-        L.O.P
-      ) AS O
+        `L`.`O`.`P`
+      ) AS `O`
     FROM
-      UNNEST(L) AS L
-    WITH 
+      UNNEST(`L`) AS `L`
+    WITH
       OFFSET
     ORDER BY
       OFFSET
-  ) AS L,
-  Q
+  ) AS `L`,
+  `Q`
 ```
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
 ```shell script
-cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar --use_snake_case
+cat my_schema.json | ./bin/bigquery-schema-select --use_snake_case
+```
+
+### Development
+
+Run tests:
+```shell script
+./run-tests.sh
 ```
