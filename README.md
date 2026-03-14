@@ -18,6 +18,19 @@ By generating an explicit `SELECT` statement that recursively expands `RECORD` a
 - `bash` shell.
 - `bq` (Google Cloud SDK) for direct table schema fetching.
 
+### Installation
+
+#### Option 1: One-liner installer (Recommended)
+```shell script
+curl -fsSL https://raw.githubusercontent.com/fpopic/bigquery-schema-select/main/install.sh | bash
+```
+
+#### Option 2: Homebrew
+```shell script
+brew tap fpopic/bigquery-schema-select https://github.com/fpopic/bigquery-schema-select
+brew install bigquery-schema-select
+```
+
 ### Usage
 
 Using existing table: 
