@@ -31,6 +31,10 @@ Input `my_schema.json`:
     "type": "TIMESTAMP"
   },
   {
+    "name": "B",
+    "type": "TIMESTAMP"
+  },
+  {
     "name": "C",
     "type": "RECORD",
     "fields": [
@@ -54,8 +58,56 @@ Input `my_schema.json`:
             ]
           }
         ]
+      },
+      {
+        "name": "H",
+        "type": "TIMESTAMP"
       }
     ]
+  },
+  {
+    "name": "I",
+    "type": "RECORD",
+    "fields": [
+      {
+        "name": "J",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "K",
+        "type": "TIMESTAMP"
+      }
+    ]
+  },
+  {
+    "name": "L",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "fields": [
+      {
+        "name": "M",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "N",
+        "type": "TIMESTAMP"
+      },
+      {
+        "name": "O",
+        "type": "RECORD",
+        "fields": [
+          {
+            "name": "P",
+            "type": "TIMESTAMP"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Q",
+    "type": "TIMESTAMP",
+    "mode": "REPEATED"
   }
 ]
 ```
@@ -64,6 +116,7 @@ Generates:
 ```sql
 SELECT
   A,
+  B,
   STRUCT(
     STRUCT(
       C.D.E,
@@ -77,8 +130,28 @@ SELECT
         ORDER BY
           OFFSET
       ) AS F
-    ) AS D
-  ) AS C
+    ) AS D,
+    C.H
+  ) AS C,
+  STRUCT(
+    I.J,
+    I.K
+  ) AS I,
+  ARRAY(
+    SELECT AS STRUCT
+      L.M,
+      L.N,
+      STRUCT(
+        L.O.P
+      ) AS O
+    FROM
+      UNNEST(L) AS L
+    WITH
+      OFFSET
+    ORDER BY
+      OFFSET
+  ) AS L,
+  Q
 ```
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
