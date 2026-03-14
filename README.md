@@ -119,6 +119,10 @@ Input `my_schema.json`:
     "name": "Q",
     "type": "TIMESTAMP",
     "mode": "REPEATED"
+  },
+  {
+    "name": "date",
+    "type": "DATE"
   }
 ]
 ```
@@ -162,7 +166,8 @@ SELECT
     ORDER BY
       OFFSET
   ) AS L,
-  Q
+  Q,
+  `date`
 ```
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
