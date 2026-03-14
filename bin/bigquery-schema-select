@@ -8,6 +8,10 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
+if ! command -v bq >/dev/null 2>&1; then
+  echo "Warning: bq (Google Cloud SDK) is not installed. You can still use this tool with JSON files, but you won't be able to fetch schemas directly from BigQuery." >&2
+fi
+
 # Check for input (stdin)
 if [[ -t 0 ]]; then
   echo "Usage: cat schema.json | $0 [--use_snake_case]" >&2
