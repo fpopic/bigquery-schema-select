@@ -4,12 +4,12 @@ Generates SQL query that selects all fields (recursively for nested fields) from
 
 ### Motivation
 
-This tool is designed to help automate the creation of **explicit BigQuery views** that act as a strict schema "contract" for different layers of a medallion architecture (L0, L1, L2).
+This tool is designed to help automate the creation of **explicit BigQuery views** that act as a strict schema "contract" between different layers of a medallion architecture. Think of these views as the **Public API** for your data: they provide a stable, documented interface that shields downstream consumers from the complexities and changes of the underlying raw data.
 
 By generating an explicit `SELECT` statement that recursively expands `RECORD` and `REPEATED RECORD` types, it ensures that your views:
 - **Prevent Schema Drift**: New fields added to the underlying source table will not be exposed in the view until you explicitly update the schema and regenerate it (avoiding the pitfalls of `SELECT *`).
 - **Maintain Structure**: Uses `STRUCT(...)` and `ARRAY(SELECT AS STRUCT ...)` to fully specify the output record structure and maintain array order using `WITH OFFSET`.
-- **Enforce Naming Standards**: Optionally aliases camelCase fields to snake_case (using the `--use_snake_case` flag) to maintain a consistent public API across your data layers.
+- **Enforce Naming Standards**: Optionally aliases camelCase fields to snake_case (using the `--use_snake_case` flag) to maintain a consistent naming convention across your data products.
 - **Automate Redundancy**: Avoids the error-prone and tedious process of manually rewriting complex nested SQL for dozens or hundreds of fields.
 
 ### Prerequisites
