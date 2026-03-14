@@ -2,6 +2,19 @@
 
 # Ported from Scala to Bash + jq
 
+# Check for dependencies
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Error: jq is not installed. Please install it (e.g., 'brew install jq' or 'sudo apt install jq')." >&2
+  exit 1
+fi
+
+# Check for input (stdin)
+if [[ -t 0 ]]; then
+  echo "Usage: cat schema.json | $0 [--use_snake_case]" >&2
+  echo "Or: bq show --schema --format=prettyjson project:dataset.table | $0" >&2
+  exit 1
+fi
+
 USE_SNAKE_CASE=false
 if [[ "$1" == "--use_snake_case" ]]; then
   USE_SNAKE_CASE=true
