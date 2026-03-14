@@ -16,6 +16,7 @@ By generating an explicit `SELECT` statement that recursively expands `RECORD` a
 
 - `jq` installed on your system.
 - `bash` shell.
+- `bq` (Google Cloud SDK) for direct table schema fetching.
 
 ### Usage
 
@@ -125,43 +126,43 @@ Input `my_schema.json`:
 Generates:
 ```sql
 SELECT
-  `A`,
-  `B`,
+  A,
+  B,
   STRUCT(
     STRUCT(
-      `C`.`D`.`E`,
+      C.D.E,
       ARRAY(
         SELECT AS STRUCT
-          `F`.`G`
+          F.G
         FROM
-          UNNEST(`C`.`D`.`F`) AS `F`
+          UNNEST(C.D.F) AS F
         WITH
           OFFSET
         ORDER BY
           OFFSET
-      ) AS `F`
-    ) AS `D`,
-    `C`.`H`
-  ) AS `C`,
+      ) AS F
+    ) AS D,
+    C.H
+  ) AS C,
   STRUCT(
-    `I`.`J`,
-    `I`.`K`
-  ) AS `I`,
+    I.J,
+    I.K
+  ) AS I,
   ARRAY(
     SELECT AS STRUCT
-      `L`.`M`,
-      `L`.`N`,
+      L.M,
+      L.N,
       STRUCT(
-        `L`.`O`.`P`
-      ) AS `O`
+        L.O.P
+      ) AS O
     FROM
-      UNNEST(`L`) AS `L`
+      UNNEST(L) AS L
     WITH
       OFFSET
     ORDER BY
       OFFSET
-  ) AS `L`,
-  `Q`
+  ) AS L,
+  Q
 ```
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
