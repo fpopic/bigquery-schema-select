@@ -12,13 +12,13 @@ Generates SQL query that selects all fields (recursively for nested fields) from
 Using existing table: 
 
 ```shell script
-bq show --schema --format=prettyjson my_project:my_dataset.my_table | ./bin/bq-schema-select
+bq show --schema --format=prettyjson my_project:my_dataset.my_table | ./bin/bigquery-schema-select
 ```
 
 Using JSON schema file:
 
 ```shell script
-cat my_schema.json | ./bin/bq-schema-select
+cat my_schema.json | ./bin/bigquery-schema-select
 ```
 
 #### Example
@@ -156,7 +156,7 @@ SELECT
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
 ```shell script
-cat my_schema.json | ./bin/bq-schema-select --use_snake_case
+cat my_schema.json | ./bin/bigquery-schema-select --use_snake_case
 ```
 
 ### Development
