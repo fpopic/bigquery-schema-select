@@ -15,12 +15,24 @@ if [[ -t 0 ]]; then
   exit 1
 fi
 
+# Read input once
+INPUT=$(cat)
+
+# Validate JSON input
+if ! echo "$INPUT" | jq -e . >/dev/null 2>&1; then
+  echo "Error: Input is not valid JSON." >&2
+  if echo "$INPUT" | grep -iq "BigQuery error"; then
+    echo "The input contains a BigQuery error. Please ensure your table reference follows the 'project:dataset.table' format (with a colon after the project ID)." >&2
+  fi
+  exit 1
+fi
+
 USE_SNAKE_CASE=false
 if [[ "$1" == "--use_snake_case" ]]; then
   USE_SNAKE_CASE=true
 fi
 
-jq -r --argjson useSnakeCase "$USE_SNAKE_CASE" '
+echo "$INPUT" | jq -r --argjson useSnakeCase "$USE_SNAKE_CASE" '
   def calculateFieldName(name; useSnakeCase):
     if (useSnakeCase | not) then name
     else
