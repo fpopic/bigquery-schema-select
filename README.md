@@ -2,6 +2,15 @@
 
 Generates SQL query that selects all fields (recursively for nested fields) from the provided BigQuery schema file.
 
+### Motivation
+
+This tool is designed to help automate the creation of **explicit BigQuery views** that act as a strict schema "contract" for different layers of a medallion architecture (L0, L1, L2).
+
+By generating an explicit `SELECT` statement that recursively expands `RECORD` and `REPEATED RECORD` types, it ensures that your views:
+- **Prevent Schema Drift**: New fields added to the underlying source table will not be exposed in the view until you explicitly update the schema and regenerate it.
+- **Maintain Structure**: Uses `STRUCT(...)` and `ARRAY(SELECT AS STRUCT ...)` to fully specify the output record structure and maintain array order using `WITH OFFSET`.
+- **Enforce Naming Standards**: Optionally aliases camelCase fields to snake_case (using the `--use_snake_case` flag) to maintain a consistent public API across your data layers.
+
 ### Prerequisites
 
 - `jq` installed on your system.
@@ -115,43 +124,43 @@ Input `my_schema.json`:
 Generates:
 ```sql
 SELECT
-  A,
-  B,
+  `A`,
+  `B`,
   STRUCT(
     STRUCT(
-      C.D.E,
+      `C`.`D`.`E`,
       ARRAY(
         SELECT AS STRUCT
-          F.G
+          `F`.`G`
         FROM
-          UNNEST(C.D.F) AS F
+          UNNEST(`C`.`D`.`F`) AS `F`
         WITH
           OFFSET
         ORDER BY
           OFFSET
-      ) AS F
-    ) AS D,
-    C.H
-  ) AS C,
+      ) AS `F`
+    ) AS `D`,
+    `C`.`H`
+  ) AS `C`,
   STRUCT(
-    I.J,
-    I.K
-  ) AS I,
+    `I`.`J`,
+    `I`.`K`
+  ) AS `I`,
   ARRAY(
     SELECT AS STRUCT
-      L.M,
-      L.N,
+      `L`.`M`,
+      `L`.`N`,
       STRUCT(
-        L.O.P
-      ) AS O
+        `L`.`O`.`P`
+      ) AS `O`
     FROM
-      UNNEST(L) AS L
+      UNNEST(`L`) AS `L`
     WITH
       OFFSET
     ORDER BY
       OFFSET
-  ) AS L,
-  Q
+  ) AS `L`,
+  `Q`
 ```
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
