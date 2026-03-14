@@ -1,8 +1,8 @@
 class BigquerySchemaSelect < Formula
   desc "Generates SQL query that selects all fields from a BigQuery schema"
   homepage "https://github.com/fpopic/bigquery-schema-select"
-  url "https://github.com/fpopic/bigquery-schema-select/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "REPLACE_WITH_ACTUAL_SHA256" # Run `brew fetch` or `sha256sum` after creating a release
+  url "https://github.com/fpopic/bigquery-schema-select/archive/refs/tags/v1.2.tar.gz"
+  sha256 "beb6e8f7333c33e798a0fac2d37c2c0a69764ddb2689f173768e604a5f363c39"
   license "Apache-2.0"
 
   depends_on "jq"
