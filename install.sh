@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # bigquery-schema-select installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/fpopic/bigquery-schema-select/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/fpopic/bigquery-schema-select/master/install.sh | bash
 
 set -e
 
@@ -35,12 +35,12 @@ fi
 mkdir -p "$INSTALL_DIR"
 
 # 3. Download the script
-REPO_URL="https://raw.githubusercontent.com/fpopic/bigquery-schema-select/main"
+REPO_URL="https://raw.githubusercontent.com/fpopic/bigquery-schema-select/master"
 SCRIPT_URL="$REPO_URL/bin/bigquery-schema-select"
 DEST="$INSTALL_DIR/bigquery-schema-select"
 
 echo -e "${BLUE}==>${NC} Downloading to $DEST..."
-if ! curl -sSL "$SCRIPT_URL" -o "$DEST"; then
+if ! curl -fsSL "$SCRIPT_URL" -o "$DEST"; then
     echo -e "${RED}Error:${NC} Failed to download script. Check your internet connection or the URL."
     exit 1
 fi

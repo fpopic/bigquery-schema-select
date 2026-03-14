@@ -22,7 +22,7 @@ By generating an explicit `SELECT` statement that recursively expands `RECORD` a
 
 #### Option 1: One-liner installer (Recommended)
 ```shell script
-curl -fsSL https://raw.githubusercontent.com/fpopic/bigquery-schema-select/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/fpopic/bigquery-schema-select/master/install.sh | bash
 ```
 
 #### Option 2: Homebrew
