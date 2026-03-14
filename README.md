@@ -1,41 +1,33 @@
 # bigquery-schema-select
 
-![Scala CI](https://github.com/fpopic/bigquery-schema-select/workflows/Scala%20CI/badge.svg) 
-[<img src="https://img.shields.io/maven-central/v/com.github.fpopic/bigquery-schema-select_2.13.svg?color=brightgreen&label=maven%20central%202.13"/>](https://search.maven.org/#search%7Cga%7C1%7Cbigquery-schema-select_2.13)
-
 Generates SQL query that selects all fields (recursively for nested fields) from the provided BigQuery schema file.
 
-### Installation
+### Prerequisites
 
-Download latest version `bigquery-schema-select_2.13-X.Y.jar` from [maven releases UI](https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/) or using CLI:
-
-```shell script
-# replace X.Y with the latest version
-wget -O ~/bigquery-schema-select_2.13-X.Y.jar https://repo1.maven.org/maven2/com/github/fpopic/bigquery-schema-select_2.13/X.Y/bigquery-schema-select_2.13-X.Y.jar
-```
+- `jq` installed on your system.
+- `bash` shell.
 
 ### Usage
 
 Using existing table: 
 
 ```shell script
-bq show --schema --format=prettyjson my_project:my_dataset.my_table | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
+bq show --schema --format=prettyjson my_project:my_dataset.my_table | ./bq-schema-select.sh
 ```
 
 Using JSON schema file:
 
 ```shell script
-cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
+cat my_schema.json | ./bq-schema-select.sh
 ```
 
+#### Example
+
+Input `my_schema.json`:
 ```json
 [
   {
     "name": "A",
-    "type": "TIMESTAMP"
-  },
-  {
-    "name": "B",
     "type": "TIMESTAMP"
   },
   {
@@ -62,65 +54,16 @@ cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar
             ]
           }
         ]
-      },
-      {
-        "name": "H",
-        "type": "TIMESTAMP"
       }
     ]
-  },
-  {
-    "name": "I",
-    "type": "RECORD",
-    "fields": [
-      {
-        "name": "J",
-        "type": "TIMESTAMP"
-      },
-      {
-        "name": "K",
-        "type": "TIMESTAMP"
-      }
-    ]
-  },
-  {
-    "name": "L",
-    "type": "RECORD",
-    "mode": "REPEATED",
-    "fields": [
-      {
-        "name": "M",
-        "type": "TIMESTAMP"
-      },
-      {
-        "name": "N",
-        "type": "TIMESTAMP"
-      },
-      {
-        "name": "O",
-        "type": "RECORD",
-        "fields": [
-          {
-            "name": "P",
-            "type": "TIMESTAMP"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Q",
-    "type": "TIMESTAMP",
-    "mode": "REPEATED"
   }
 ]
 ```
 
-Would generate:
+Generates:
 ```sql
 SELECT
   A,
-  B,
   STRUCT(
     STRUCT(
       C.D.E,
@@ -134,31 +77,18 @@ SELECT
         ORDER BY
           OFFSET
       ) AS F
-    ) AS D,
-    C.H
-  ) AS C,
-  STRUCT(
-    I.J,
-    I.K
-  ) AS I,
-  ARRAY(
-    SELECT AS STRUCT
-      L.M,
-      L.N,
-      STRUCT(
-        L.O.P
-      ) AS O
-    FROM
-      UNNEST(L) AS L
-    WITH 
-      OFFSET
-    ORDER BY
-      OFFSET
-  ) AS L,
-  Q
+    ) AS D
+  ) AS C
 ```
 
 In case you would like to use snake_case for field names use flag `--use_snake_case`:
 ```shell script
-cat my_schema.json | java -jar ~/bigquery-schema-select_2.13-X.Y.jar --use_snake_case
+cat my_schema.json | ./bq-schema-select.sh --use_snake_case
+```
+
+### Development
+
+Run tests:
+```shell script
+./run-tests.sh
 ```
