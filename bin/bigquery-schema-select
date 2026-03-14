@@ -33,6 +33,8 @@ if [[ "$1" == "--use_snake_case" ]]; then
 fi
 
 echo "$INPUT" | jq -r --argjson useSnakeCase "$USE_SNAKE_CASE" '
+  def quoteName(name): "`" + name + "`";
+
   def calculateFieldName(name; useSnakeCase):
     if (useSnakeCase | not) then name
     else
@@ -42,29 +44,30 @@ echo "$INPUT" | jq -r --argjson useSnakeCase "$USE_SNAKE_CASE" '
     end;
 
   def toSelectClauseRecursive(current; depth; prefix; useSnakeCase):
-    (if (prefix == null) then current.name else prefix + "." + current.name end) as $fullyQualifiedName |
+    (if (prefix == null) then quoteName(current.name) else prefix + "." + quoteName(current.name) end) as $fullyQualifiedName |
     ("  " * depth) as $indent |
     calculateFieldName(current.name; useSnakeCase) as $calculatedFieldName |
-    (if (useSnakeCase and $calculatedFieldName != current.name) then " AS " + $calculatedFieldName else "" end) as $alias |
+    quoteName($calculatedFieldName) as $quotedCalculatedFieldName |
+    (if (useSnakeCase and $calculatedFieldName != current.name) then " AS " + $quotedCalculatedFieldName else "" end) as $alias |
     
     if (current.type != "RECORD") then
       $indent + $fullyQualifiedName + $alias
     elif (current.type == "RECORD" and current.mode == "REPEATED") then
-      current.name as $currentName |
+      quoteName(current.name) as $currentNameQuoted |
       ($indent + "ARRAY(\n" +
        $indent + "  SELECT AS STRUCT\n" +
-       (current.fields | map(toSelectClauseRecursive(.; depth + 2; $currentName; useSnakeCase)) | join(",\n")) + "\n" +
+       (current.fields | map(toSelectClauseRecursive(.; depth + 2; $currentNameQuoted; useSnakeCase)) | join(",\n")) + "\n" +
        $indent + "  FROM\n" +
-       $indent + "    UNNEST(" + $fullyQualifiedName + ") AS " + $currentName + "\n" +
+       $indent + "    UNNEST(" + $fullyQualifiedName + ") AS " + $currentNameQuoted + "\n" +
        $indent + "  WITH\n" +
        $indent + "    OFFSET\n" +
        $indent + "  ORDER BY\n" +
        $indent + "    OFFSET\n" +
-       $indent + ") AS " + $calculatedFieldName)
+       $indent + ") AS " + $quotedCalculatedFieldName)
     else
       ($indent + "STRUCT(\n" +
        (current.fields | map(toSelectClauseRecursive(.; depth + 1; $fullyQualifiedName; useSnakeCase)) | join(",\n")) + "\n" +
-       $indent + ") AS " + $calculatedFieldName)
+       $indent + ") AS " + $quotedCalculatedFieldName)
     end;
 
   "SELECT\n" + (map(toSelectClauseRecursive(.; 1; null; $useSnakeCase)) | join(",\n"))
