@@ -19,3 +19,21 @@ jobs:
 
     - name: Run tests
       run: ./run-tests.sh
+
+    - name: Verify installer
+      run: |
+        # Mocking the installation directory to avoid permission issues in CI
+        export PATH="$HOME/.local/bin:$PATH"
+        mkdir -p "$HOME/.local/bin"
+        
+        # Test the installer script
+        bash ./install.sh
+        
+        # Verify the binary was installed and is executable
+        if [[ ! -x "$HOME/.local/bin/bigquery-schema-select" ]]; then
+          echo "Installer failed to place executable at ~/.local/bin/bigquery-schema-select"
+          exit 1
+        fi
+        
+        # Verify it runs
+        bigquery-schema-select --help
