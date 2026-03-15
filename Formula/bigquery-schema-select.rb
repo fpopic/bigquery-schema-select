@@ -1,4 +1,4 @@
-class BigquerySchemaSelect < Formula
+class BigQuerySchemaSelect < Formula
   desc "Generates SQL query that selects all fields from a BigQuery schema"
   homepage "https://github.com/fpopic/bigquery-schema-select"
   url "https://github.com/fpopic/bigquery-schema-select/archive/refs/tags/v1.4.tar.gz"
